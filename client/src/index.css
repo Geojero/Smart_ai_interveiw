@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-slate-200;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #f8fafc;
+    @apply text-slate-900 font-sans antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+}
+
+@layer components {
+  /* Slate card with subtle shadow */
+  .glass-card {
+    @apply bg-white border border-slate-200 rounded-xl shadow-card;
+  }
+
+  /* Brand button */
+  .btn-brand {
+    @apply bg-brand-600 hover:bg-brand-700
+           text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200
+           shadow-brand hover:shadow-brand-lg hover:scale-[1.02] active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply bg-white hover:bg-slate-50 text-slate-700 font-medium px-6 py-3 rounded-xl
+           border border-slate-200 hover:border-slate-300 transition-all duration-200
+           shadow-sm;
+  }
+
+  /* Input field */
+  .input-field {
+    @apply w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900
+           placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20
+           focus:border-brand-500 transition-all duration-200;
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply glass-card p-6 relative overflow-hidden hover:border-brand-300
+           transition-all duration-300 hover:shadow-card-hover cursor-default;
+  }
+
+  /* Sidebar item */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500
+           hover:bg-slate-100 hover:text-slate-900 transition-all duration-200 cursor-pointer;
+  }
+
+  .sidebar-item.active {
+    @apply bg-brand-50 text-brand-700 border border-brand-200 font-semibold;
+  }
+
+  /* Skill badge */
+  .skill-badge-matched {
+    @apply bg-emerald-50 text-emerald-700 border border-emerald-200
+           px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .skill-badge-missing {
+    @apply bg-rose-50 text-rose-700 border border-rose-200
+           px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply bg-slate-100 rounded-xl animate-pulse;
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    @apply h-2 rounded-full bg-slate-100 overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-700 ease-out;
+    background: linear-gradient(90deg, #2563eb, #0284c7);
+  }
+
+  /* Notification badge */
+  .badge {
+    @apply inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold rounded-full;
+  }
+
+  /* Code block */
+  .code-block {
+    @apply bg-slate-900 rounded-xl p-4 font-mono text-sm text-slate-300
+           border border-slate-700 overflow-x-auto;
+  }
+
+  /* Section header */
+  .section-header {
+    @apply text-2xl font-bold text-slate-900 mb-6 font-display;
+  }
+
+  /* Top nav link */
+  .nav-link {
+    @apply px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100
+           rounded-lg font-medium text-sm transition-colors;
+  }
+
+  .nav-link.active {
+    @apply bg-brand-600 text-white font-semibold shadow-sm;
+  }
+
+  /* Label styles */
+  .label-sm {
+    @apply font-mono text-xs tracking-wider uppercase font-semibold;
+  }
+
+  .label-ui {
+    @apply text-[13px] leading-4 tracking-wide font-semibold;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-600 to-sky-600 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-accent {
+    @apply bg-gradient-to-r from-accent-500 to-orange-500 bg-clip-text text-transparent;
+  }
+
+  .glow-brand {
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.25);
+  }
+
+  .border-gradient {
+    border-image: linear-gradient(135deg, #2563eb, #0284c7) 1;
+  }
+}
+
+/* Custom animations */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Recharts tooltip - light theme */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  color: #0f172a !important;
+}
+
+/* React markdown styles */
+.markdown-content h1 { @apply text-2xl font-bold text-slate-900 mb-4; }
+.markdown-content h2 { @apply text-xl font-semibold text-slate-900 mb-3 mt-6; }
+.markdown-content h3 { @apply text-lg font-medium text-slate-800 mb-2 mt-4; }
+.markdown-content p { @apply text-slate-600 mb-3 leading-relaxed; }
+.markdown-content code { @apply bg-slate-100 text-brand-700 px-1.5 py-0.5 rounded text-sm font-mono; }
+.markdown-content pre { @apply code-block mb-4; }
+.markdown-content ul { @apply list-disc list-inside text-slate-600 mb-3 space-y-1; }
+.markdown-content ol { @apply list-decimal list-inside text-slate-600 mb-3 space-y-1; }
+.markdown-content strong { @apply text-slate-900 font-semibold; }
+.markdown-content table { @apply w-full border-collapse mb-4; }
+.markdown-content th { @apply bg-slate-50 text-slate-900 px-4 py-2 text-left border border-slate-200; }
+.markdown-content td { @apply text-slate-600 px-4 py-2 border border-slate-200; }
+.markdown-content blockquote { @apply border-l-4 border-brand-500 pl-4 italic text-slate-500 mb-3; }
