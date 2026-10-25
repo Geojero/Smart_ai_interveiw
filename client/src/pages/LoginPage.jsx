@@ -14,11 +14,6 @@ const LoginPage = () => {
 
   const isSignUp = authMode === 'signup';
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    if (error) dispatch(clearError());
-  };
-
   const handleTabChange = (mode) => {
     setAuthMode(mode);
     dispatch(clearError());
@@ -30,6 +25,12 @@ const LoginPage = () => {
       setForm({ name: '', email: '', password: '', confirmPassword: '' });
     }
   };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    if (error) dispatch(clearError());
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,7 +78,7 @@ const LoginPage = () => {
         {/* Main Elevated Authentication Card */}
         <div className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-white border border-slate-200 text-slate-800">
           <div className="relative grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
-            
+
             {/* LEFT COLUMN: Authentication Flow (7 Columns) */}
             <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between bg-white">
               <div>
@@ -92,7 +93,7 @@ const LoginPage = () => {
                       <span className="font-mono text-[11px] text-blue-600 uppercase tracking-widest font-semibold">Career Cockpit OS</span>
                     </div>
                   </div>
-                  
+
                   {/* Role Routing Indicator Badge */}
                   <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 font-mono text-xs">
                     <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
@@ -107,11 +108,10 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => handleTabChange('student')}
-                    className={`flex-1 py-2 px-3 rounded-lg text-center font-medium text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 ${
-                      authMode === 'student'
+                    className={`flex-1 py-2 px-3 rounded-lg text-center font-medium text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 ${authMode === 'student'
                         ? 'bg-white text-blue-600 shadow-sm font-semibold'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-                    }`}
+                      }`}
                   >
                     <span className="material-symbols-outlined text-base">school</span>
                     <span>Student Sign In</span>
@@ -119,11 +119,10 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => handleTabChange('signup')}
-                    className={`flex-1 py-2 px-3 rounded-lg text-center font-medium text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 ${
-                      authMode === 'signup'
+                    className={`flex-1 py-2 px-3 rounded-lg text-center font-medium text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 ${authMode === 'signup'
                         ? 'bg-white text-blue-600 shadow-sm font-semibold'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-                    }`}
+                      }`}
                   >
                     <span className="material-symbols-outlined text-base">person_add</span>
                     <span>Create Account</span>
@@ -131,11 +130,10 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => handleTabChange('admin')}
-                    className={`flex-1 py-2 px-3 rounded-lg text-center font-medium text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 ${
-                      authMode === 'admin'
+                    className={`flex-1 py-2 px-3 rounded-lg text-center font-medium text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 ${authMode === 'admin'
                         ? 'bg-white text-blue-600 shadow-sm font-semibold'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-                    }`}
+                      }`}
                   >
                     <span className="material-symbols-outlined text-base">shield_person</span>
                     <span>Admin Portal</span>
@@ -148,15 +146,15 @@ const LoginPage = () => {
                     {authMode === 'signup'
                       ? 'Create your candidate terminal'
                       : authMode === 'admin'
-                      ? 'Sign in to administrative console'
-                      : 'Sign in to your candidate terminal'}
+                        ? 'Sign in to administrative console'
+                        : 'Sign in to your candidate terminal'}
                   </h1>
                   <p className="font-sans text-sm text-slate-500">
                     {authMode === 'signup'
                       ? 'Start your AI-evaluated interview preparation curriculum.'
                       : authMode === 'admin'
-                      ? 'Manage cohorts, track rubric performance, and monitor assessments.'
-                      : 'Continue your AI-evaluated interview preparation curriculum.'}
+                        ? 'Manage cohorts, track rubric performance, and monitor assessments.'
+                        : 'Continue your AI-evaluated interview preparation curriculum.'}
                   </p>
                 </div>
 
