@@ -5,6 +5,9 @@ const ActivityLog = require('../models/ActivityLog');
 const MockInterview = require('../models/MockInterview');
 const Lesson = require('../models/Lesson');
 const Topic = require('../models/Topic');
+const DsaProblem = require('../models/DsaProblem');
+const DsaProgress = require('../models/DsaProgress');
+const { ensureProblemsSeeded } = require('./dsaController');
 const { asyncHandler } = require('../middleware/error');
 
 // @route GET /api/student/dashboard-stats
@@ -17,7 +20,36 @@ const getDashboardStats = asyncHandler(async (req, res) => {
     return res.status(404).json({ success: false, message: 'Profile not found' });
   }
 
-  // DSA progress
+  // Ensure DSA problem bank is seeded if needed
+  if (typeof ensureProblemsSeeded === 'function') {
+    try {
+      await ensureProblemsSeeded();
+    } catch (e) {
+      console.warn('Seeding check warning:', e.message);
+    }
+  }
+
+  // Real DSA practice problems progress
+  const [dsaProgress, totalDbProblems] = await Promise.all([
+    DsaProgress.findOne({ user: userId }),
+    DsaProblem.countDocuments(),
+  ]);
+
+  const totalDsaProblems = totalDbProblems || 100;
+  const solvedSet = new Set((dsaProgress?.solvedProblems || []).map((id) => id.toString()));
+  const dsaSolvedCount = solvedSet.size;
+  const dsaCompletion =
+    totalDsaProblems > 0
+      ? Math.round((dsaSolvedCount / totalDsaProblems) * 100)
+      : 0;
+
+  // Track max streak between profile and DSA activity
+  const currentStreak = Math.max(
+    profile.streak || 0,
+    dsaProgress?.streak?.currentStreak || 0
+  );
+
+  // Syllabus Lesson progress
   const dsaTopics = await Topic.find({ track: 'dsa' }).sort('order');
   const allLessons = await Lesson.find({
     topic: { $in: dsaTopics.map((t) => t._id) },
@@ -28,12 +60,7 @@ const getDashboardStats = asyncHandler(async (req, res) => {
     lesson: { $in: allLessons.map((l) => l._id) },
   });
 
-  const dsaCompletion =
-    allLessons.length > 0
-      ? Math.round((completedProgress.length / allLessons.length) * 100)
-      : 0;
-
-  // Topic-wise progress
+  // Topic-wise progress (for syllabus lessons)
   const topicProgress = await Promise.all(
     dsaTopics.map(async (topic) => {
       const topicLessons = allLessons.filter(
@@ -79,17 +106,17 @@ const getDashboardStats = asyncHandler(async (req, res) => {
   }
 
   // Readiness score (average of all skills)
-  const skills = profile.skillScores;
+  const skills = profile.skillScores || {};
   const skillValues = [
-    skills.communication,
-    skills.dsa || dsaCompletion,
-    skills.problemSolving,
-    skills.coreCS,
-    skills.resume,
-    skills.aptitude,
+    skills.communication || 0,
+    dsaCompletion,
+    skills.problemSolving || 0,
+    skills.coreCS || 0,
+    skills.resume || 0,
+    skills.aptitude || 0,
   ];
   const overallReadiness = Math.round(
-    skillValues.reduce((a, b) => a + b, 0) / skillValues.length
+    skillValues.reduce((a, b) => a + b, 0) / (skillValues.length || 1)
   );
 
   res.json({
@@ -97,7 +124,7 @@ const getDashboardStats = asyncHandler(async (req, res) => {
     data: {
       profile: {
         targetRole: profile.targetRole,
-        streak: profile.streak,
+        streak: currentStreak,
         interviewsPracticed: profile.interviewsPracticed,
       },
       overallReadiness,
@@ -106,6 +133,8 @@ const getDashboardStats = asyncHandler(async (req, res) => {
         dsa: dsaCompletion,
       },
       dsaCompletion,
+      dsaSolvedCount,
+      totalDsaProblems,
       topicProgress,
       recentActivity,
       weeklyActivity,

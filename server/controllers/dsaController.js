@@ -490,3 +490,5 @@ exports.saveCodeDraft = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.ensureProblemsSeeded = ensureProblemsSeeded;

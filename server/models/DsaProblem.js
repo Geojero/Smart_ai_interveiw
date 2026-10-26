@@ -65,7 +65,7 @@ const dsaProblemSchema = new mongoose.Schema(
     testCases: [
       {
         input: { type: String, required: true },
-        expectedOutput: { type: String, required: true },
+        expectedOutput: { type: String, default: '' },
         isHidden: { type: Boolean, default: false },
         explanation: { type: String },
       },

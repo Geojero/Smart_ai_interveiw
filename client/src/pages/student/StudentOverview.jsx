@@ -39,6 +39,8 @@ const StudentOverview = () => {
   const readiness = stats.overallReadiness || 0;
   const commScore = stats.skillScores?.communication || 0;
   const dsaComp = stats.dsaCompletion || 0;
+  const dsaSolved = stats.dsaSolvedCount ?? Math.round((dsaComp * (stats.totalDsaProblems || 100)) / 100);
+  const dsaTotal = stats.totalDsaProblems || 100;
   const streak = stats.profile?.streak || 0;
   const mockCount = stats.profile?.interviewsPracticed || 0;
   const resumeScore = stats.skillScores?.resume || 0;
@@ -170,20 +172,41 @@ const StudentOverview = () => {
           </div>
 
           {/* Card 3: DSA Progress */}
-          <div className="bg-white rounded-xl p-4 sm:p-5 shadow-xs border border-slate-200/80 flex flex-col justify-between hover:border-blue-300 hover:shadow-md transition-all">
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => navigate('/student/dsa')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                navigate('/student/dsa');
+              }
+            }}
+            className="bg-white rounded-xl p-4 sm:p-5 shadow-xs border border-slate-200/80 flex flex-col justify-between hover:border-blue-400 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group select-none"
+            title="Click to view DSA Practice Problems"
+          >
             <div className="flex items-center justify-between text-slate-600">
-              <span className="text-xs font-semibold text-slate-700">DSA Progress</span>
-              <span className="material-symbols-outlined text-blue-600 text-lg">terminal</span>
+              <span className="text-xs font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">DSA Progress</span>
+              <span className="material-symbols-outlined text-blue-600 text-lg group-hover:scale-110 transition-transform">terminal</span>
             </div>
             <div className="my-2">
-              <div className="flex items-baseline gap-1">
-                <span className="font-display text-3xl font-bold text-slate-900">{dsaComp}%</span>
-                <span className="text-xs text-slate-400 font-medium">completed</span>
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-display text-3xl font-bold text-slate-900">{dsaSolved}</span>
+                <span className="text-xs text-slate-500 font-medium">/ {dsaTotal} Solved</span>
               </div>
-              <p className="text-xs text-slate-500">Curated interview questions</p>
+              <p className="text-xs text-slate-500 mt-0.5">{dsaComp}% completed • 100 curated</p>
             </div>
-            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden flex">
-              <div className="bg-blue-600 h-full rounded-full" style={{ width: `${dsaComp}%` }} />
+            <div>
+              <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden flex mb-2">
+                <div
+                  className="bg-blue-600 h-full rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min(100, dsaComp)}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between font-mono text-[11px] text-slate-500 group-hover:text-blue-600 transition-colors">
+                <span>Practice DSA</span>
+                <span className="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
             </div>
           </div>
 
@@ -298,7 +321,7 @@ const StudentOverview = () => {
           </div>
           <button
             type="button"
-            onClick={() => navigate('/student/learn')}
+            onClick={() => navigate('/student/learning')}
             className="text-xs text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1 cursor-pointer"
           >
             <span>View All Topics</span>

@@ -249,7 +249,7 @@ if data:
     testCases: [
       { input: '5 2\n1 2 3 4 5', expectedOutput: '1 2 3 5', isHidden: false },
       { input: '2 1\n1 2', expectedOutput: '1', isHidden: false },
-      { input: '1 1\n1', expectedOutput: '', isHidden: true }
+      { input: '4 2\n1 2 3 4', expectedOutput: '1 2 4', isHidden: true }
     ],
     solution: {
       approach: 'Two-pointer gap method in a single pass.',

@@ -77,6 +77,7 @@ function App() {
           <Route path="dashboard" element={<StudentOverview />} />
           <Route path="resume" element={<ResumeAnalyzer />} />
           <Route path="learning" element={<ContinueLearning />} />
+          <Route path="learn" element={<Navigate to="/student/learning" replace />} />
           <Route path="learning/lesson/:id" element={<LessonPage />} />
           <Route path="dsa" element={<DsaProblemList />} />
           <Route path="dsa/:slug" element={<DsaProblemSolver />} />

@@ -69,11 +69,11 @@ const StudentLayout = () => {
           {/* Right: Search + Actions + Profile */}
           <div className="flex items-center gap-3">
             {/* Search */}
-            <button className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+            {/* <button className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
               <span className="material-symbols-outlined text-base">search</span>
               <span className="text-sm">Search prompts, topics...</span>
               <kbd className="px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 font-mono text-[11px] border border-slate-300">⌘K</kbd>
-            </button>
+            </button> */}
 
             {/* AI Badge */}
             <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-brand-50 border border-brand-200 text-brand-700">
@@ -82,7 +82,7 @@ const StudentLayout = () => {
             </div>
 
             {/* Theme toggle */}
-            <button
+            {/* <button
               onClick={() => dispatch(toggleTheme())}
               className="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
               aria-label="Theme Switcher"
@@ -90,13 +90,13 @@ const StudentLayout = () => {
               <span className="material-symbols-outlined text-xl">
                 {mode === 'dark' ? 'dark_mode' : 'light_mode'}
               </span>
-            </button>
+            </button> */}
 
             {/* Notifications */}
-            <button className="relative p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Notifications">
+            {/* <button className="relative p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Notifications">
               <span className="material-symbols-outlined text-xl">notifications</span>
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand-600 ring-2 ring-white"></span>
-            </button>
+            </button> */}
 
             {/* Divider */}
             <div className="h-6 w-px bg-slate-200 mx-1 hidden sm:block"></div>
